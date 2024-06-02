@@ -1,0 +1,77 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fff;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.leftSideContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.middleSideContainer,
+.rightSideContainer {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.middleSideContainer {
+    margin: 0 10px;
+    padding: 10px;
+    width: 100% - 20px;
+    height: 100%;
+    overflow-y: scroll;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.rightSideContainer {
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.previousFilesContainer {
+    height: calc(100% - 45px);
+    overflow-y: scroll;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.middleSideContainer:hover,
+.previousFilesContainer:hover {
+    border: 1px solid rgba(0, 0, 0, 1);
+}
+
+.reportPreviewContainer {
+    height: 100%;
+}

@@ -1,12 +1,33 @@
 import { useRef, useState, useEffect } from "react";
-import { TbMicrophoneFilled } from "react-icons/tb";
+import { Box, Grid } from "@mui/material";
 
-const AudioRecorder = () => {
+import "./App.css";
+import LeftSideComponent from "./components/Main/LeftSide.component";
+import MiddleSideComponent from "./components/Main/MiddlleSide.component";
+import RightSideComponent from "./components/Main/RightSide.component";
+
+const App = () => {
     const [recordedUrl, setRecordedUrl] = useState("");
     const mediaStream = useRef(null);
     const mediaRecorder = useRef(null);
     const chunks = useRef([]);
     const [isRecording, setIsRecording] = useState(false);
+    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowHeight(window.innerHeight);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
+    // New
+    const [inputPrompt, setInputPrompt] = useState("");
 
     useEffect(() => {
         const handleKeyDown = event => {
@@ -46,9 +67,9 @@ const AudioRecorder = () => {
                 setRecordedUrl(url);
                 chunks.current = [];
 
-                sendAudioToServer(recordedBlob).then(response => {
-                    console.log(response);
-                });
+                // sendAudioToServer(recordedBlob).then(response => {
+                //     console.log(response);
+                // });
             };
 
             mediaRecorder.current.start();
@@ -77,52 +98,52 @@ const AudioRecorder = () => {
         }
     };
 
-    const sendAudioToServer = async audioBlob => {
-        const formData = new FormData();
-        formData.append("audio", audioBlob, "recording.webm");
+    // const sendAudioToServer = async audioBlob => {
+    //     const formData = new FormData();
+    //     formData.append("audio", audioBlob, "recording.webm");
 
-        try {
-            const response = await fetch("http://localhost:5000/upload-audio", {
-                method: "POST",
-                body: formData,
-            });
+    //     try {
+    //         const response = await fetch("http://localhost:5000/upload-audio", {
+    //             method: "POST",
+    //             body: formData,
+    //         });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data);
-            } else {
-                console.error("Failed to upload audio");
-            }
-        } catch (error) {
-            console.error("Error uploading audio:", error);
-        }
-    };
+    //         if (response.ok) {
+    //             const data = await response.json();
+    //             console.log(data);
+    //         } else {
+    //             console.error("Failed to upload audio");
+    //         }
+    //     } catch (error) {
+    //         console.error("Error uploading audio:", error);
+    //     }
+    // };
 
     return (
-        <div
-            style={{
-                display: "flex",
-                width: "100%",
-                height: "100vh",
-                justifyContent: "center",
-                alignItems: "center",
-            }}
-        >
-            {recordedUrl && !isRecording && <audio style={{ visibility: "hidden" }} src={recordedUrl} controls autoPlay />}
+        <Box width="100%">
+            {/* {recordedUrl && !isRecording && <audio style={{ visibility: "hidden" }} src={recordedUrl} controls autoPlay />} */}
 
-            <TbMicrophoneFilled
+            {/* <TbMicrophoneFilled
                 style={{
-                    position: "absolute",
-                    cursor: "pointer",
-                    fontSize: "50px",
                     color: `${isRecording ? "red" : "green"}`,
-                    padding: "25px",
-                    borderRadius: "50%",
-                    backgroundColor: "rgba(209, 232, 213, 0.5)",
                 }}
+                className="micIcon"
                 onClick={handleRecording}
-            />
-        </div>
+            /> */}
+            <Grid container height="100vh" width="100%" padding={2}>
+                <Grid item height="100%" xs={3.5}>
+                    <LeftSideComponent inputPrompt={inputPrompt} windowHeight={windowHeight} />
+                </Grid>
+
+                <Grid item height="100%" xs={5}>
+                    <MiddleSideComponent />
+                </Grid>
+
+                <Grid item height="100%" xs={3.5}>
+                    <RightSideComponent />
+                </Grid>
+            </Grid>
+        </Box>
     );
 };
-export default AudioRecorder;
+export default App;
