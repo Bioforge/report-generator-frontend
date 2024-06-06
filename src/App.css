@@ -1,77 +1,109 @@
 *,
 *::before,
 *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
 body {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 /* width */
 ::-webkit-scrollbar {
-    width: 5px;
+  width: 5px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #888;
+  background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+  background: #555;
 }
 
-.leftSideContainer {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.grid-container {
+  border: 1px solid red;
+  height: 100vh;
+  width: 100%;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 0.7fr 1.6fr 0.7fr;
+  grid-template-rows: 0.7fr 1.3fr 60px;
+  gap: 10px;
+  grid-template-areas:
+    "one four five"
+    "two four five"
+    "three four six";
 }
 
-.middleSideContainer,
-.rightSideContainer {
-    height: 100%;
-    border-radius: 3px;
+.one {
+  grid-area: one;
 }
 
-.middleSideContainer {
-    margin: 0 10px;
-    padding: 10px;
-    width: 100% - 20px;
-    height: 100%;
-    overflow-y: scroll;
-    border: 1px solid rgba(0, 0, 0, 0.3);
+.two {
+  grid-area: two;
 }
 
-.rightSideContainer {
-    padding: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.three {
+  grid-area: three;
 }
 
-.previousFilesContainer {
-    height: calc(100% - 45px);
-    overflow-y: scroll;
-    border: 1px solid rgba(0, 0, 0, 0.3);
+.four {
+  grid-area: four;
 }
 
-.middleSideContainer:hover,
-.previousFilesContainer:hover {
-    border: 1px solid rgba(0, 0, 0, 1);
+.five {
+  grid-area: five;
 }
 
-.reportPreviewContainer {
-    height: 100%;
+.six {
+  grid-area: six;
+}
+
+.grid-container > div {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.custom-area {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+.custom-button {
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.primary {
+  background-color: #3f51b5;
+  color: #fff;
+}
+
+.primary-light {
+  background-color: #757de8;
+  color: #fff;
+}
+
+.primary-dark {
+  background-color: #002984;
+  color: #fff;
 }

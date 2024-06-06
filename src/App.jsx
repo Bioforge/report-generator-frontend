@@ -1,56 +1,31 @@
 import { useState, useEffect } from "react";
-import { Box, Grid } from "@mui/material";
-
-import LeftSideComponent from "./components/Main/LeftSide.component";
-import MiddleSideComponent from "./components/Main/MiddlleSide.component";
-import RightSideComponent from "./components/Main/RightSide.component";
+import CustomTexArea from "./components/CustomTextArea.component";
 
 import "./App.css";
+import CustomButtonComponent from "./components/CustomButton.component";
 
 const App = () => {
   const [isRecording, setIsRecording] = useState(false);
-
-  // New
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-  const [inputPrompt, setInputPrompt] = useState("");
-  const [outputPrompt, setOutputPrompt] = useState("");
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowHeight(window.innerHeight);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const [prompt, setPrompt] = useState("");
+  const [response, setResponse] = useState("");
 
   return (
-    <Box width="100%">
-      <Grid container height="100vh" width="100%" padding={2}>
-        <Grid item height="100%" xs={3.5}>
-          <LeftSideComponent
-            inputPrompt={inputPrompt}
-            setInputPrompt={setInputPrompt}
-            outputPrompt={outputPrompt}
-            setOutputPrompt={setOutputPrompt}
-            windowHeight={windowHeight}
-            isRecording={isRecording}
-            setIsRecording={setIsRecording}
-          />
-        </Grid>
-
-        <Grid item height="100%" xs={5}>
-          <MiddleSideComponent />
-        </Grid>
-
-        <Grid item height="100%" xs={3.5}>
-          <RightSideComponent />
-        </Grid>
-      </Grid>
-    </Box>
+    <div className="grid-container">
+      <div className="one">
+        <CustomTexArea value={prompt} placeholder="Your prompt" />
+      </div>
+      <div className="two">
+        <CustomTexArea value={response} placeholder="Your response" />
+      </div>
+      <div className="three">
+        <CustomButtonComponent color="primary-light" value="Record" />
+      </div>
+      <div className="four">4</div>
+      <div className="five">5</div>
+      <div className="six">
+        <CustomButtonComponent color="primary-light" value="Print" />
+      </div>
+    </div>
   );
 };
 export default App;
