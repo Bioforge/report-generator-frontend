@@ -1,5 +1,4 @@
 import PromptTexArea from "./components/CustomTextArea/PromptTextArea.component";
-import ResponseTexArea from "./components/CustomTextArea/ResponseTextArea.component";
 import RecordButtonComponent from "./components/CustomButton/RecordButton.component";
 import PrintButtonComponent from "./components/CustomButton/PrintButton.component";
 import PreviousFileListComponent from "./components/PreviousFilesList/PreviousFileList.component";
@@ -13,18 +12,13 @@ const App = () => {
             <div className="one">
                 <PromptTexArea />
             </div>
-            <div className="two">
-                <ResponseTexArea />
-            </div>
             <div className="three">
                 <RecordButtonComponent color="primary-light" />
             </div>
             <div className="four">
                 <ReportPreviewComponent />
             </div>
-            <div className="five">
-                <PreviousFileListComponent />
-            </div>
+
             <div className="six">
                 <PrintButtonComponent color="primary-light" />
             </div>

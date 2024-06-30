@@ -15,6 +15,10 @@ export const ChatProvider = ({ children }) => {
 
     const startRecording = async () => {
         try {
+            setPrompt("");
+            setResponse("");
+            setIsProcessing(false);
+
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaRecorder.current = new MediaRecorder(stream);
             const chunks = [];
@@ -66,6 +70,9 @@ export const ChatProvider = ({ children }) => {
         try {
             const response = await getTextFromAudio(formData);
             setPrompt(response.data);
+
+            const completion = await getChatCompletion(prompt);
+            setResponse(completion.data.report);
         } catch (error) {
             console.error("Error uploading audio:", error.response ? error.response.data : error.message);
         } finally {

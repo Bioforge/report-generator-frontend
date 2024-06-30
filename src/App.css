@@ -35,13 +35,13 @@ body {
     width: 100%;
     padding: 10px;
     display: grid;
-    grid-template-columns: 0.7fr 1.6fr 0.7fr;
+    grid-template-columns: 0.8fr 1.5fr 0.7fr;
     grid-template-rows: 0.7fr 1.3fr 60px;
     gap: 10px;
     grid-template-areas:
-        "one four five"
-        "two four five"
-        "three four six";
+        "one four four"
+        "one four four"
+        "three six six";
 }
 
 .one {
@@ -155,10 +155,20 @@ body {
     align-items: center;
 }
 
-.report-print {
+.report-preview {
     height: 100%;
     width: 100%;
+    padding: 5px 10px;
     overflow-y: scroll;
     overflow-x: hidden;
     border-radius: 0;
+}
+
+.report-preview > table > tbody > tr > td {
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+table {
+    border-collapse: collapse;
 }
