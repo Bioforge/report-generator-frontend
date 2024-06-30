@@ -1,15 +1,11 @@
-export const getTextFromAudio = async audioFile => {
-    const formData = new FormData();
-    formData.append("file", audioFile);
+import axios from "axios";
 
-    const response = await fetch(`${import.meta.env.VITE_PROXY_URL}/transcribe-audio`, {
-        method: "POST",
-        body: formData,
+export const getTextFromAudio = async formData => {
+    const response = await axios.post(`${import.meta.env.VITE_PROXY_URL}/transcribe-audio`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
     });
 
-    const data = await response.json();
-
-    return data;
+    return response.data;
 };
 
 export const getChatCompletion = async context => {

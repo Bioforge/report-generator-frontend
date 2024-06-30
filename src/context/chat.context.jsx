@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useRef } from "react";
 import { getTextFromAudio, getChatCompletion } from "../api/api";
 
 // Create a context
@@ -10,41 +10,67 @@ export const ChatProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [prompt, setPrompt] = useState("");
     const [response, setResponse] = useState("");
-    const [mediaRecorder, setMediaRecorder] = useState(null);
-    const [audioChunks, setAudioChunks] = useState([]);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const mediaRecorder = useRef(null);
 
-    const startRecording = () => {
-        setIsRecording(true);
-        setPrompt("");
-        setResponse("");
-        setMediaRecorder(null);
-        setAudioChunks([]);
+    const startRecording = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder.current = new MediaRecorder(stream);
+            const chunks = [];
 
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-            const mediaRecorder = new MediaRecorder(stream);
-            setMediaRecorder(mediaRecorder);
-
-            mediaRecorder.ondataavailable = event => {
-                if (event.data && event.data.size > 0) {
-                    setAudioChunks(prevChunks => [...prevChunks, event.data]);
+            mediaRecorder.current.ondataavailable = e => {
+                if (e.data.size > 0) {
+                    chunks.push(e.data);
                 }
             };
 
-            mediaRecorder.start();
-        });
+            mediaRecorder.current.onstop = async () => {
+                const blob = new Blob(chunks, { type: "audio/webm" });
+                await uploadAudio(blob);
+            };
+
+            mediaRecorder.current.start();
+            setIsRecording(true);
+            console.log("Recording started");
+        } catch (err) {
+            console.error("Error starting recording:", err);
+        }
     };
 
-    const stopRecording = async () => {
-        mediaRecorder.stop();
-        setIsRecording(false);
-        await transcribeAudio();
+    const stopRecording = () => {
+        if (mediaRecorder.current && mediaRecorder.current.state !== "inactive") {
+            mediaRecorder.current.stop();
+            setIsRecording(false);
+            setIsProcessing(true);
+            console.log("Recording stopped");
+        }
     };
 
-    const transcribeAudio = async () => {
-        const audioBlob = new Blob(audioChunks, { type: "audio/mp3" });
-        const response = await getTextFromAudio(audioBlob);
-        setPrompt(response);
-        setAudioChunks([]);
+    const uploadAudio = async blob => {
+        if (!blob) {
+            console.error("No audio blob to upload");
+            setIsProcessing(false);
+            return;
+        }
+
+        if (blob.size === 0) {
+            alert("The recorded audio is empty. Please try recording again.");
+            setIsProcessing(false);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("audio", blob, "recording.webm");
+
+        try {
+            const response = await getTextFromAudio(formData);
+            setPrompt(response.data);
+        } catch (error) {
+            console.error("Error uploading audio:", error.response ? error.response.data : error.message);
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     const completeChat = async () => {
@@ -61,17 +87,14 @@ export const ChatProvider = ({ children }) => {
                 setIsRecording,
                 isLoading,
                 setIsLoading,
+                isProcessing,
+                setIsProcessing,
                 prompt,
                 setPrompt,
                 response,
                 setResponse,
-                mediaRecorder,
-                setMediaRecorder,
-                audioChunks,
-                setAudioChunks,
                 startRecording,
                 stopRecording,
-                transcribeAudio,
                 completeChat,
             }}
         >

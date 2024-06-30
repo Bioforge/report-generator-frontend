@@ -1,3 +1,3 @@
-export default function PrintButtonComponent({ color }) {
-    return <button className={`custom-button ${color}`}>Print</button>;
+export default function PrintButtonComponent() {
+    return <button className="custom-button print-button">Print</button>;
 }
