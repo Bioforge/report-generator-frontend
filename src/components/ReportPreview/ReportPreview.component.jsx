@@ -1,19 +1,9 @@
-import { useEffect, useState } from "react";
 import { UseChatContext } from "../../context/chat.context";
-import ReactToPrint from "react-to-print";
-import PrintButtonComponent from "../CustomButton/PrintButton.component";
 
 export default function ReportPreviewComponent({ innerRef }) {
     const { response } = UseChatContext();
-    const [reportData, setReportData] = useState(null);
 
-    useEffect(() => {
-        if (response) {
-            setReportData(response);
-        }
-    }, [response]);
-
-    return reportData ? (
+    return response ? (
         <div className="report-preview" ref={innerRef}>
             <h1>Patient Report</h1>
             <table>
@@ -22,55 +12,55 @@ export default function ReportPreviewComponent({ innerRef }) {
                         <td>
                             <strong>Patient ID:</strong>
                         </td>
-                        <td>{reportData.PatientID}</td>
+                        <td>{response.PatientID}</td>
                     </tr>
                     <tr>
                         <td>
                             <strong>Date:</strong>
                         </td>
-                        <td>{reportData.Date}</td>
+                        <td>{response.Date}</td>
                     </tr>
                     <tr>
                         <td>
                             <strong>Patient&apos;s Name:</strong>
                         </td>
-                        <td>{reportData["Patient'sName"]}</td>
+                        <td>{response["Patient'sName"]}</td>
                     </tr>
                     <tr>
                         <td>
                             <strong>Sex:</strong>
                         </td>
-                        <td>{reportData.Sex}</td>
+                        <td>{response.Sex}</td>
                     </tr>
                     <tr>
                         <td>
                             <strong>Age:</strong>
                         </td>
-                        <td>{reportData.Age}</td>
+                        <td>{response.Age}</td>
                     </tr>
                     <tr>
                         <td>
                             <strong>Referred by:</strong>
                         </td>
-                        <td>{reportData.Referredby}</td>
+                        <td>{response.Referredby}</td>
                     </tr>
                     <tr>
                         <td>
                             <strong>Referral Note:</strong>
                         </td>
-                        <td>{reportData.ReferralNote}</td>
+                        <td>{response.ReferralNote}</td>
                     </tr>
                     <tr>
                         <td>
                             <strong>Examination:</strong>
                         </td>
-                        <td>{reportData.Examination}</td>
+                        <td>{response.Examination}</td>
                     </tr>
                     <tr>
                         <td>
                             <strong>Clinical History:</strong>
                         </td>
-                        <td>{reportData.ClinicalHistory}</td>
+                        <td>{response.ClinicalHistory}</td>
                     </tr>
                     <tr>
                         <td>
@@ -79,7 +69,7 @@ export default function ReportPreviewComponent({ innerRef }) {
                         <td>
                             <table>
                                 <tbody>
-                                    {reportData.Technique.map((technique, index) => (
+                                    {response.Technique.map((technique, index) => (
                                         <tr key={index}>
                                             <td>{technique}</td>
                                         </tr>
@@ -95,13 +85,13 @@ export default function ReportPreviewComponent({ innerRef }) {
                         <td>
                             <table>
                                 <tbody>
-                                    {Object.keys(reportData.Findings).map((finding, index) => (
+                                    {Object.keys(response.Findings).map((finding, index) => (
                                         <tr key={index}>
                                             <td>
                                                 <strong>{finding.replace(/([A-Z])/g, " $1")}:</strong>
                                                 <table>
                                                     <tbody>
-                                                        {reportData.Findings[finding].map((detail, idx) => (
+                                                        {response.Findings[finding].map((detail, idx) => (
                                                             <tr key={idx}>
                                                                 <td>{detail}</td>
                                                             </tr>
@@ -122,7 +112,7 @@ export default function ReportPreviewComponent({ innerRef }) {
                         <td>
                             <table>
                                 <tbody>
-                                    {reportData.Comment.map((comment, index) => (
+                                    {response.Comment.map((comment, index) => (
                                         <tr key={index}>
                                             <td>{comment}</td>
                                         </tr>
@@ -138,7 +128,7 @@ export default function ReportPreviewComponent({ innerRef }) {
                         <td>
                             <table>
                                 <tbody>
-                                    {reportData.Advice.map((advice, index) => (
+                                    {response.Advice.map((advice, index) => (
                                         <tr key={index}>
                                             <td>{advice}</td>
                                         </tr>
@@ -151,7 +141,7 @@ export default function ReportPreviewComponent({ innerRef }) {
                         <td>
                             <strong>Note:</strong>
                         </td>
-                        <td>{reportData.Note}</td>
+                        <td>{response.Note}</td>
                     </tr>
                     <tr>
                         <td>
@@ -160,7 +150,7 @@ export default function ReportPreviewComponent({ innerRef }) {
                         <td>
                             <table>
                                 <tbody>
-                                    {reportData.Doctor.map((doctor, index) => (
+                                    {response.Doctor.map((doctor, index) => (
                                         <tr key={index}>
                                             <td>{doctor}</td>
                                         </tr>
