@@ -37,13 +37,10 @@ const markdown = `
 **Date:** June 2, 2024
 `;
 
-export default function ReportPrintComponent() {
-  return (
-    <div className="report-print">
-      <MarkdownPreview
-        source={markdown}
-        style={{ padding: 16, backgroundColor: "#fff", color: "#000" }}
-      />
-    </div>
-  );
+export default function ReportPreviewComponent() {
+    return (
+        <div className="report-print">
+            <MarkdownPreview source={markdown} style={{ padding: 16, backgroundColor: "#fff", color: "#000" }} />
+        </div>
+    );
 }
