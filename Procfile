@@ -1,1 +1,1 @@
-web: vite preview --port $PORT
+web: npx run vite preview --port $PORT
