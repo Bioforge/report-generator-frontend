@@ -1,12 +1,19 @@
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+
 import PromptTexArea from "./components/CustomTextArea/PromptTextArea.component";
 import RecordButtonComponent from "./components/CustomButton/RecordButton.component";
 import PrintButtonComponent from "./components/CustomButton/PrintButton.component";
-import PreviousFileListComponent from "./components/PreviousFilesList/PreviousFileList.component";
 import ReportPreviewComponent from "./components/ReportPreview/ReportPreview.component";
 
 import "./App.css";
 
 const App = () => {
+    const componentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
+
     return (
         <div className="grid-container">
             <div className="one">
@@ -16,11 +23,11 @@ const App = () => {
                 <RecordButtonComponent color="primary-light" />
             </div>
             <div className="four">
-                <ReportPreviewComponent />
+                <ReportPreviewComponent innerRef={componentRef} />
             </div>
 
             <div className="six">
-                <PrintButtonComponent color="primary-light" />
+                <PrintButtonComponent handlePrint={handlePrint} color="primary-light" />
             </div>
         </div>
     );

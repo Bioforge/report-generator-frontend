@@ -5,13 +5,30 @@ import { getTextFromAudio, getChatCompletion } from "../api/api";
 const ChatContext = createContext();
 
 // Create a provider component
+// eslint-disable-next-line react/prop-types
 export const ChatProvider = ({ children }) => {
     const [isRecording, setIsRecording] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [prompt, setPrompt] = useState("");
     const [response, setResponse] = useState("");
+    const [transcriptionError, setTranscriptionError] = useState({
+        isError: false,
+        message: "",
+    });
+    const [chatCompletionError, setChatCompletionError] = useState({
+        isError: false,
+        message: "",
+    });
     const [isProcessing, setIsProcessing] = useState(false);
     const mediaRecorder = useRef(null);
+
+    const handleTranscriptionError = error => {
+        setTranscriptionError({ isError: true, message: error });
+    };
+
+    const handleChatCompletionError = error => {
+        setChatCompletionError({ isError: true, message: error });
+    };
 
     const startRecording = async () => {
         try {

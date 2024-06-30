@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { UseChatContext } from "../../context/chat.context";
+import ReactToPrint from "react-to-print";
+import PrintButtonComponent from "../CustomButton/PrintButton.component";
 
-export default function ReportPreviewComponent() {
+export default function ReportPreviewComponent({ innerRef }) {
     const { response } = UseChatContext();
     const [reportData, setReportData] = useState(null);
 
@@ -12,7 +14,7 @@ export default function ReportPreviewComponent() {
     }, [response]);
 
     return reportData ? (
-        <div className="report-preview">
+        <div className="report-preview" ref={innerRef}>
             <h1>Patient Report</h1>
             <table>
                 <tbody>
@@ -30,7 +32,7 @@ export default function ReportPreviewComponent() {
                     </tr>
                     <tr>
                         <td>
-                            <strong>Patient's Name:</strong>
+                            <strong>Patient&apos;s Name:</strong>
                         </td>
                         <td>{reportData["Patient'sName"]}</td>
                     </tr>
@@ -171,7 +173,7 @@ export default function ReportPreviewComponent() {
             </table>
         </div>
     ) : (
-        <div className="report-preview">
+        <div className="report-preview" ref={innerRef}>
             <h1>Patient Report</h1>
             <p>No report available</p>
         </div>

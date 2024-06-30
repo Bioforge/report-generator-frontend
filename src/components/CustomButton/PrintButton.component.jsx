@@ -1,3 +1,7 @@
-export default function PrintButtonComponent() {
-    return <button className="custom-button print-button">Print</button>;
+export default function PrintButtonComponent({ handlePrint }) {
+    return (
+        <button onClick={handlePrint} className="custom-button print-button">
+            Print
+        </button>
+    );
 }
